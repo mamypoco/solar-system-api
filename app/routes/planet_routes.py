@@ -46,7 +46,7 @@ def get_all_planets():
 
 
 @planets_bp.get("/<id>")
-def get_single_planet():
+def get_single_planet(id):
     planet = validate_planet(id)
     planet_dict = dict(
             id=planet.id,
