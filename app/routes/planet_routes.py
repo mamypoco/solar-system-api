@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, abort, request
+from flask import Blueprint, make_response, abort, request, Response
 from app.models.planets import Planet
 from ..db import db
 
@@ -43,3 +43,54 @@ def get_all_planets():
         ))
 
     return result_list
+
+
+@planets_bp.get("/<id>")
+def get_single_planet():
+    planet = validate_planet(id)
+    planet_dict = dict(
+            id=planet.id,
+            name=planet.name,
+            description=planet.description,
+            size=planet.size
+        )
+
+    return planet_dict
+
+def validate_planet(id):
+    try:
+        id = int(id)
+    except ValueError:
+        invalid = {"message": f"Planet id ({id}) is invalid."}
+        abort(make_response(invalid, 400))
+        
+    query = db.select(Planet).where(Planet.id == id)
+    planet = db.session.scalar(query)
+    if not planet:
+        not_found = {"message": f"Planet with id ({id}) not found"}
+        abort(make_response(not_found, 404))
+    return planet
+
+
+@planets_bp.put("/<id>")
+def replace_planet(id):
+    planet = validate_planet(id)
+    request_body = request.get_json()
+    
+    planet.name = request_body["name"]
+    planet.description = request_body["description"]
+    planet.size = request_body["size"]
+    db.session.commit()
+
+    return Response(status=204, mimetype="application/json")
+
+
+
+@planets_bp.delete("/<id>")
+def delete_planet(id):
+    planet = validate_planet(id)
+    
+    db.session.delete(planet)
+    db.session.commit()
+    
+    return Response(status=204, mimetype="application/json")
