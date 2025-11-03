@@ -85,6 +85,7 @@ def test_create_one_planet_with_extra_keys(client):
     # Assert
     assert response.status_code == 201
     assert response_body == {
+        "id": 1,
         "name": "Earth",
         "size": "medium",
         "description": "A New Planet on Board!"
