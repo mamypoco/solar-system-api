@@ -15,7 +15,7 @@ class Planet(db.Model):
             "size": self.size
         }
 
-    @classmethod
+    @classmethod # build a new instance when Planet.from_dict is called
     def from_dict(cls, planet_data):
         return cls(name=planet_data["name"], 
                    description=planet_data["description"], 
