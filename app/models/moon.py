@@ -10,8 +10,8 @@ class Moon(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     size: Mapped[str]
     description: Mapped[str]
-    planet_id: Mapped[Optional[int]] = mapped_column(ForeignKey("moon.id"))
-    planet: Mapped[Optional["Planet"]] = relationship(back_populates="moons")
+    planet_id: Mapped[Optional[int]] = mapped_column(ForeignKey("planet.id"))
+    planet: Mapped[list["Planet"]] = relationship(back_populates="moons")
 
     def to_dict(self):
         result = {

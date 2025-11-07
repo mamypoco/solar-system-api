@@ -11,7 +11,7 @@ class Planet(db.Model):
     name: Mapped[str]
     description: Mapped[str]
     size: Mapped[str]
-    moon: Mapped[Optional["Moon"]] = relationship(back_populates="planets")    
+    moons: Mapped[list["Moon"]] = relationship(back_populates="planet")    
 
     def to_dict(self):
         return {
@@ -27,5 +27,4 @@ class Planet(db.Model):
         return cls(name=planet_data["name"], 
                    description=planet_data["description"], 
                    size=planet_data["size"],
-                   moon_id=planet_data.get("moon_id", None)
                    )
