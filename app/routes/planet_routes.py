@@ -33,6 +33,8 @@ def create_moons_with_planet_id(id):
     return create_model(Moon, request_body)
 
 
+
+
 @bp.get("/<id>/moons")
 def get_all_planet_moons(id):
     planet = validate_model(Planet, id)
@@ -99,11 +101,3 @@ def delete_planet(id):
     return Response(status=204, mimetype="application/json")
 
 
-@bp.post("/<id>/cats")
-def create_moon_with_planet_id(id):
-    planet= validate_model(Planet, id)
-
-    request_body = request.get_json()
-    request_body["planet_id"] = planet.id
-
-    return create_model(Moons, request_body)

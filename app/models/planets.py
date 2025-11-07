@@ -19,12 +19,12 @@ class Planet(db.Model):
             "name": self.name, 
             "description": self.description,
             "size": self.size,
-            "moon": self.moon.name if self.moon_id else None
+            # "moon": self.moon.name if self.moon_id else None
         }
 
     @classmethod # build a new instance when Planet.from_dict is called
     def from_dict(cls, planet_data):
         return cls(name=planet_data["name"], 
-                   description=planet_data["description"], 
-                   size=planet_data["size"],
-                   )
+                description=planet_data["description"], 
+                size=planet_data["size"],
+                )

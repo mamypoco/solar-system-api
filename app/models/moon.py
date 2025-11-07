@@ -11,7 +11,7 @@ class Moon(db.Model):
     size: Mapped[str]
     description: Mapped[str]
     planet_id: Mapped[Optional[int]] = mapped_column(ForeignKey("planet.id"))
-    planet: Mapped[list["Planet"]] = relationship(back_populates="moons")
+    planet: Mapped["Planet"] = relationship(back_populates="moons")
 
     def to_dict(self):
         result = {
@@ -30,6 +30,10 @@ class Moon(db.Model):
     @classmethod
     def from_dict(cls, moon_data):
         
-        new_moon = cls(name=moon_data["name"], planet_id=moon_data.get("planet_id", None))
+        new_moon = cls(
+            size=moon_data["size"],
+            description=moon_data["description"],
+            planet_id=moon_data.get("planet_id", None)
+        )
 
         return new_moon
